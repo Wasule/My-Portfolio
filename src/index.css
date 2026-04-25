@@ -1,0 +1,182 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --blue:      #4fa8f5;
+    --cyan:      #00d4ff;
+    --bg:        #020508;
+    --bg2:       #060d14;
+    --bg3:       #0a1628;
+    --border:    rgba(30,80,140,0.35);
+    --text:      #e6edf3;
+    --text2:     #7a94b0;
+    --text3:     #2a4060;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* Scanline overlay */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.025) 2px,
+      rgba(0,0,0,0.025) 4px
+    );
+  }
+}
+
+@layer components {
+  /* ── Crosshair cursor ── */
+  .crosshair {
+    position: fixed;
+    pointer-events: none;
+    z-index: 999;
+    width: 20px;
+    height: 20px;
+    transform: translate(-50%, -50%);
+    transition: transform 0.08s ease;
+  }
+  .crosshair::before,
+  .crosshair::after {
+    content: '';
+    position: absolute;
+    background: rgba(79,168,245,0.55);
+  }
+  .crosshair::before { width: 1px; height: 100%; left: 50%; top: 0; }
+  .crosshair::after  { width: 100%; height: 1px; top: 50%; left: 0; }
+  .crosshair.on-node { transform: translate(-50%, -50%) scale(1.8); }
+
+  /* ── Section panels ── */
+  .section-panel {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 90px 48px 60px;
+    width: 100%;
+  }
+
+  .sec-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--cyan);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .sec-title {
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 36px;
+    color: var(--text);
+  }
+
+  /* ── Cards ── */
+  .gw-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .gw-card:hover {
+    border-color: var(--blue);
+    transform: translateY(-3px);
+  }
+
+  /* ── Tags / pills ── */
+  .gw-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    padding: 2px 9px;
+    border-radius: 20px;
+    border: 1px solid rgba(79,168,245,0.3);
+    color: var(--blue);
+    background: rgba(79,168,245,0.07);
+    display: inline-block;
+  }
+
+  /* ── Timeline ── */
+  .timeline-line {
+    position: absolute;
+    left: 0; top: 8px; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--blue), transparent);
+  }
+
+  .timeline-dot {
+    position: absolute;
+    left: -33px; top: 8px;
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: var(--blue);
+    box-shadow: 0 0 10px var(--blue);
+  }
+}
+
+@layer utilities {
+  .text-blue  { color: var(--blue); }
+  .text-cyan  { color: var(--cyan); }
+  .text-text2 { color: var(--text2); }
+  .text-text3 { color: var(--text3); }
+  .bg-bg2     { background: var(--bg2); }
+  .bg-bg3     { background: var(--bg3); }
+  .border-gw  { border-color: var(--border); }
+}
+
+/* ── Animations ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+
+.animate-fade-up-1 { opacity:0; animation: fadeUp 0.5s ease 0.1s forwards; }
+.animate-fade-up-2 { opacity:0; animation: fadeUp 0.6s ease 0.2s forwards; }
+.animate-fade-up-3 { opacity:0; animation: fadeUp 0.6s ease 0.3s forwards; }
+.animate-fade-up-4 { opacity:0; animation: fadeUp 0.6s ease 0.4s forwards; }
+.animate-fade-up-5 { opacity:0; animation: fadeUp 0.6s ease 0.5s forwards; }
+.animate-fade-up-6 { opacity:0; animation: fadeUp 0.6s ease 0.65s forwards; }
+
+.cursor-blink {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background: var(--blue);
+  vertical-align: middle;
+  margin-left: 3px;
+  animation: blink 1s step-end infinite;
+}
+
+.status-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 6px var(--cyan);
+  animation: pulseDot 2s ease-in-out infinite;
+}
