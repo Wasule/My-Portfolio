@@ -26,6 +26,25 @@ npm run build
 3. Vercel auto-detects Vite — click Deploy
 4. Your site is live at `your-name.vercel.app`
 
+## 📦 Deploy to GitHub Pages via GitHub Actions
+
+This repo includes a GitHub Actions workflow at `.github/workflows/deploy.yml` that builds the site and publishes the `dist` folder to the `gh-pages` branch on every push to `master`.
+
+To deploy:
+
+```bash
+# 1. Add your GitHub remote
+git remote add origin https://github.com/<your-username>/<your-repo>.git
+
+# 2. Push the master branch
+git push -u origin master
+
+# 3. Enable GitHub Pages from repository settings
+#    - Source: gh-pages branch
+```
+
+Once pushed, GitHub Actions will build and deploy automatically.
+
 ## 📁 Project Structure
 
 ```
